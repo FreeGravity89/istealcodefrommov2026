@@ -1,0 +1,27 @@
+package org.firstinspires.ftc.teamcode.autonomous;
+
+import com.pedropathing.follower.Follower;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
+import com.pedropathing.util.Timer;
+
+@Autonomous
+public class FarBlueAuto extends OpMode { startpos
+    private Timer pathtimer;
+    public enum pathstates {
+        //start and end POS
+        //Drive- movement
+        //shoot
+        STARTpos-shoot,
+        shootpre
+
+    }
+    Pathstate pathstate;
+    public void init(){
+
+    }
+
+    @Override
+    public void loop(){}
+}

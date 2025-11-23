@@ -51,9 +51,9 @@ public class TempFarRed extends OpMode{
 
     // SHOOTING VARS
 
-    private DcMotorEx ls;
-    private DcMotorEx rs;
-    private DcMotor belt;
+    private DcMotorEx outRight;
+    private DcMotorEx outLeft;
+    private DcMotor intake;
     private DcMotor elbow;
 
     private final double OVERSHOOT_VEL_MULT = 1.622;
@@ -101,9 +101,9 @@ public class TempFarRed extends OpMode{
         fol = Constants.createFollower(hardwareMap);
         fol.setStartingPose(Start);
 
-        ls = hardwareMap.get(DcMotorEx.class, "ls");
-        rs = hardwareMap.get(DcMotorEx.class, "rs");
-        belt = hardwareMap.get(DcMotor.class, "belt");
+        outRight = hardwareMap.get(DcMotorEx.class, "outRight");
+        outLeft = hardwareMap.get(DcMotorEx.class, "outLeft");
+        intake = hardwareMap.get(DcMotor.class, "intake");
         elbow = hardwareMap.get(DcMotor.class, "elbow");
 
         bl = hardwareMap.get(CRServo.class, "bl");
@@ -111,9 +111,9 @@ public class TempFarRed extends OpMode{
         ascension = hardwareMap.get(CRServo.class, "ascension");
         blocker = hardwareMap.get(Servo.class, "blocker");
 
-        ls.setDirection(DcMotorSimple.Direction.FORWARD);
-        rs.setDirection(DcMotorSimple.Direction.REVERSE);
-        belt.setDirection(DcMotorSimple.Direction.FORWARD);
+        outRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        outLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        intake.setDirection(DcMotorSimple.Direction.FORWARD);
         elbow.setDirection(DcMotor.Direction.REVERSE);
 
         elbow.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -435,8 +435,8 @@ public class TempFarRed extends OpMode{
         }
 
         if (shootTimer.milliseconds() < 1200 && shootTimerCount == 0){
-            ls.setVelocity(velToPow(shootVel));
-            rs.setVelocity(velToPow(shootVel));
+            outRight.setVelocity(velToPow(shootVel));
+            outLeft.setVelocity(velToPow(shootVel));
         }
         else if (shootTimerCount == 0){
             shootTimer.reset();
@@ -451,8 +451,8 @@ public class TempFarRed extends OpMode{
             shootTimerCount = 2;
 
         if (shootTimerCount == 2){
-            ls.setVelocity(0);
-            rs.setVelocity(0);
+            outRight.setVelocity(0);
+            outLeft.setVelocity(0);
             feeding = 2;
             fcount = 0;
             ascension.setPower(0);
@@ -462,7 +462,7 @@ public class TempFarRed extends OpMode{
     }
 
     private void runBelt(double speed){
-        belt.setPower(speed);
+        intake.setPower(speed);
         br.setPower(speed);
         bl.setPower(-speed);
     }
@@ -482,7 +482,7 @@ public class TempFarRed extends OpMode{
             runBelt(-beltSpeed);
         }
         else {
-            if (ls.getVelocity() >= velToPow(shootVel) - 30 && rs.getVelocity() >= velToPow(shootVel) - 30) {
+            if (outRight.getVelocity() >= velToPow(shootVel) - 30 && outLeft.getVelocity() >= velToPow(shootVel) - 30) {
                 if (feeding == 2)
                     feeding = 0;
                 else

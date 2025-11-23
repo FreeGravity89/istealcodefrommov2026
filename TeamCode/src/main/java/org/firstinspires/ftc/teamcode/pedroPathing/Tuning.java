@@ -185,7 +185,7 @@ class LocalizationTest extends OpMode {
 /**
  * This is the ForwardTuner OpMode. This tracks the forward movement of the robot and displays the
  * necessary ticks to inches multiplier. This displayed multiplier is what's necessary to scale the
- * robot's current distance in ticks to the specified distance in inches. So, to use this, run the
+ * robot's current 9 in ticks to the specified distance in inches. So, to use this, run the
  * tuner, then pull/push the robot to the specified distance using a ruler on the ground. When you're
  * at the end of the distance, record the ticks to inches multiplier. Feel free to run multiple trials
  * and average the results. Then, input the multiplier into the forward ticks to inches in your
@@ -546,7 +546,7 @@ class LateralVelocityTuner extends OpMode {
  */
 class ForwardZeroPowerAccelerationTuner extends OpMode {
     private final ArrayList<Double> accelerations = new ArrayList<>();
-    public static double VELOCITY = 60;
+    public static double VELOCITY = 32;
 
     private double previousVelocity;
     private long previousTimeNano;
