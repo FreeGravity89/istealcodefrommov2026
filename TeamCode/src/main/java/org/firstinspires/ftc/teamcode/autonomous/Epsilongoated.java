@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import com.pedropathing.util.Timer;
+import com.seattlesolvers.solverslib.hardware.servos.ServoEx;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
@@ -70,6 +71,7 @@ public class Epsilongoated extends OpMode {
         //put in coords for start pose > ending pose
         drivestartpostoshootpos =follower.pathBuilder()
                 .addPath(new BezierLine(startPose,shootPose))
+                .addTemporalCallback(0,
                 .setLinearHeadingInterpolation(startPose.getHeading(),shootPose.getHeading())
                 .build();
         Stafreto1 =follower.pathBuilder()
@@ -174,6 +176,8 @@ public class Epsilongoated extends OpMode {
         pathstate= Pathstate.DRIVE_STARTPOS_SHOOT_POS;
         pathtimer = new Timer();
         OpmodeTimer = new Timer();
+        ServoEx outakeflipL = new ServoEx(hardwareMap, "outakeflipL");
+        ServoEx outakeflipR = new ServoEx(hardwareMap, "outakeflipR");
 
         follower = Constants.createFollower(hardwareMap);
         //TODO add in any other init mechaniams
