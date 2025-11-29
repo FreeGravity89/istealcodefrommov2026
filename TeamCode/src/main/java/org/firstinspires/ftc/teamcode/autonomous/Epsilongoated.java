@@ -17,6 +17,8 @@ import com.seattlesolvers.solverslib.hardware.servos.ServoEx;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
+import subsystems.ServosAndMotors;
+
 @Autonomous
 public class Epsilongoated extends OpMode {
     private Timer pathtimer;
@@ -116,6 +118,7 @@ public class Epsilongoated extends OpMode {
             case SHOOT_PRELOAD:
                 //cheak is follower done its path ?
                 if (!follower.isBusy()&& pathtimer.getElapsedTimeSeconds() >3 ){
+
                     //TODO add logic to flywheel shooter
                     follower.followPath(Stafreto1, true);
                     setPathstate(Pathstate.Stafretopickspike1);
@@ -178,8 +181,6 @@ public class Epsilongoated extends OpMode {
         pathstate= Pathstate.DRIVE_STARTPOS_SHOOT_POS;
         pathtimer = new Timer();
         OpmodeTimer = new Timer();
-        //ServoEx outakeflipL = new ServoEx(hardwareMap, "outakeflipL");
-        //ServoEx outakeflipR = new ServoEx(hardwareMap, "outakeflipR");
 
         follower = Constants.createFollower(hardwareMap);
         //TODO add in any other init mechaniams
