@@ -25,18 +25,15 @@ public class ServosAndMotors {
         PPG3,
         PGP1,
         PGP2,
-        PGP3,
         GPP1,
         GPP2,
         GPP3,
-        ShootL2,
-        ShootR,
         Intake1and2,
         Intake3,
         Reset
     }
     private ShootState shootState;
-    public double Apriltag = 0;//replace once apriltag detection works
+    public int Apriltag = 0;//replace once apriltag detection works
     // FlipperConstants
     private double FlipLClose = 0;
     private double FlipLOpen = 0;
@@ -47,7 +44,7 @@ public class ServosAndMotors {
     private double FlipperTimeGree = 0.25;
     private double shootTime1 = 2; //This is adjusting to how long before it shoots
     // ShootConstants
-    private int shotsRemaining = 0;
+    public int shotsRemaining = 0;
     private double velo = 0;
     //private double RPMmin = 800; //Probably won't use rpm in auto since voltage should be consistent
     //private double RPMtarget = 1200;
@@ -92,9 +89,9 @@ public class ServosAndMotors {
                 }
                 break;
             case IdlePPG:
+                outakeflipperL.setPosition(FlipLClose);
+                outakeflipperR.setPosition(FlipRClose);
                 if(shotsRemaining > 0) {
-                    outakeflipperL.setPosition(FlipLClose);
-                    outakeflipperR.setPosition(FlipRClose);
                     ShooterL.setPower(shootPower);
                     ShooterR.setPower(shootPower);
                     stateTimer0.reset();
@@ -102,9 +99,9 @@ public class ServosAndMotors {
                 }
                 break;
             case IdlePGP:
+                outakeflipperL.setPosition(FlipLClose);
+                outakeflipperR.setPosition(FlipRClose);
                 if(shotsRemaining > 0) {
-                    outakeflipperL.setPosition(FlipLClose);
-                    outakeflipperR.setPosition(FlipRClose);
                     ShooterL.setPower(shootPower);
                     ShooterR.setPower(shootPower);
                     stateTimer0.reset();
@@ -112,9 +109,9 @@ public class ServosAndMotors {
                 }
                 break;
             case IdleGPP:
+                outakeflipperL.setPosition(FlipLClose);
+                outakeflipperR.setPosition(FlipRClose);
                 if(shotsRemaining > 0) {
-                    outakeflipperL.setPosition(FlipLClose);
-                    outakeflipperR.setPosition(FlipRClose);
                     ShooterL.setPower(shootPower);
                     ShooterR.setPower(shootPower);
                     stateTimer0.reset();
@@ -137,7 +134,7 @@ public class ServosAndMotors {
                 }
             case Spin_upGPP:
                 if(stateTimer0.seconds() > shootTime1){
-                    outakeflipperL.setPosition(FlipLOpen);
+                    outakeflipperR.setPosition(FlipROpen);
                     stateTimer0.reset();
                     shootState = ShootState.GPP1;
                     break;
@@ -161,6 +158,7 @@ public class ServosAndMotors {
                     outakeflipperL.setPosition(FlipLClose);
                     outakeflipperR.setPosition(FlipROpen);
                     stateTimer0.reset();
+                    shotsRemaining = 0;
                     shootState = ShootState.IdlePPG;
                     break;
                 }
@@ -169,7 +167,7 @@ public class ServosAndMotors {
                     outakeflipperL.setPosition(FlipLClose);
                     outakeflipperR.setPosition(FlipROpen);
                     stateTimer0.reset();
-                    shootState = ShootState.PPG2;
+                    shootState = ShootState.PGP2;
                     break;
                 }
             case PGP2:
@@ -177,9 +175,42 @@ public class ServosAndMotors {
                     outakeflipperR.setPosition(FlipRClose);
                     outakeflipperL.setPosition(FlipLOpen);
                     stateTimer0.reset();
+                    shotsRemaining = 0;
                     shootState = ShootState.IdlePGP;
                     break;
                 }
+            case GPP1:
+                if (stateTimer0.seconds() > FlipperTimePurp){
+                    outakeflipperL.setPosition(FlipLOpen);
+                    outakeflipperR.setPosition(FlipRClose);
+                    stateTimer0.reset();
+                    shootState = ShootState.GPP2;
+                    break;
+                }
+            case GPP2:
+                if (stateTimer0.seconds() > FlipperTimePurp){
+                    outakeflipperL.setPosition(FlipLClose);
+                    stateTimer0.reset();
+                    shootState = ShootState.GPP3;
+                    break;
+                }
+            case GPP3:
+                if (stateTimer0.seconds() > FlipperTimePurpReset){
+                    outakeflipperL.setPosition(FlipLOpen);
+                    stateTimer0.reset();
+                    shotsRemaining = 0;
+                    shootState = ShootState.IdleGPP;
+                    break;
+                }
+
         }
+    }
+    public void fireshots(int numberofshots){
+        if(shootState == ShootState.IdlePPG || shootState == ShootState.IdlePGP || shootState == ShootState.IdleGPP){
+            shotsRemaining = numberofshots;
+        }
+    }
+    public boolean isBusy(){
+        return shootState != ShootState.IdlePPG && shootState != ShootState.IdlePGP && shootState != ShootState.IdleGPP;
     }
 }

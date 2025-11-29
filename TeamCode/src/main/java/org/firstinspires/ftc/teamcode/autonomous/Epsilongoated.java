@@ -23,6 +23,8 @@ import subsystems.ServosAndMotors;
 public class Epsilongoated extends OpMode {
     private Timer pathtimer;
     private Timer OpmodeTimer;
+    private ServosAndMotors servosandmotors = new ServosAndMotors();
+    private boolean shotstriggered = false;
 
     public enum servos{
         intake,
@@ -116,14 +118,25 @@ public class Epsilongoated extends OpMode {
                 setPathstate(Pathstate.SHOOT_PRELOAD);// reset the timer and make new state
                 break;
             case SHOOT_PRELOAD:
-                //cheak is follower done its path ?
-                if (!follower.isBusy()&& pathtimer.getElapsedTimeSeconds() >3 ){
+                if(!follower.isBusy()){
+                    if(!shotstriggered){
+                        servosandmotors.fireshots(1);
+                        shotstriggered = true;
+                    } else if (shotstriggered && !servosandmotors.isBusy()) {
+                        //done shooting
+                        follower.followPath(Stafreto1, true);
+                        setPathstate(Pathstate.Stafretopickspike1);
+                        telemetry.addLine("lines up with the spike mark");
+                    }
+                }
+                //check is follower done its path ?
+               // if (!follower.isBusy()&& pathtimer.getElapsedTimeSeconds() >3 ){
 
                     //TODO add logic to flywheel shooter
-                    follower.followPath(Stafreto1, true);
-                    setPathstate(Pathstate.Stafretopickspike1);
-                    telemetry.addLine("lines up with the spike mark");
-                }
+                    //follower.followPath(Stafreto1, true);
+                    //setPathstate(Pathstate.Stafretopickspike1);
+                    //telemetry.addLine("lines up with the spike mark");
+                //}
                 break;
 
             case  Stafretopickspike1:
@@ -172,6 +185,8 @@ public class Epsilongoated extends OpMode {
     public void setPathstate(Pathstate newstate ){
         pathstate= newstate;
         pathtimer.resetTimer();
+
+        shotstriggered = false;
     }
 
 
@@ -181,6 +196,7 @@ public class Epsilongoated extends OpMode {
         pathstate= Pathstate.DRIVE_STARTPOS_SHOOT_POS;
         pathtimer = new Timer();
         OpmodeTimer = new Timer();
+        servosandmotors.init(hardwareMap);
 
         follower = Constants.createFollower(hardwareMap);
         //TODO add in any other init mechaniams
@@ -196,6 +212,7 @@ public class Epsilongoated extends OpMode {
     @Override
     public void loop(){
         follower.update();
+        servosandmotors.update();
         statePathupdate();
         telemetry.addData("path state", pathstate.toString());
         telemetry.addData("x", follower.getPose().getPose());
