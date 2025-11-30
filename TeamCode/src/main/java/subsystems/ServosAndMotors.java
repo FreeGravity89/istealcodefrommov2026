@@ -58,10 +58,11 @@ public class ServosAndMotors {
         ShooterR = hwMap.get(DcMotor.class,"ShooterR");
         ShooterL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         ShooterR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        ShooterL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        ShooterR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        ShooterL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        ShooterR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         ShooterR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         ShooterL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        stateTimer0.reset();
         //Tune PIDF, Maybe...
         shootState = ShootState.AprilTag;
         outakeflipperL.setPosition(FlipLClose);
@@ -83,7 +84,7 @@ public class ServosAndMotors {
                     stateTimer0.reset();
                     shootState = ShootState.IdlePPG;
                 }
-                else {//this is if it does not detect
+                else if (stateTimer0.seconds() > .5){//this is if it does not detect
                     stateTimer0.reset();
                     shootState = ShootState.IdlePPG;
                 }

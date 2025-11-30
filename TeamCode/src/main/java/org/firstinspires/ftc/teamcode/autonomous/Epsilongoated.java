@@ -6,14 +6,18 @@ import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
+import com.qualcomm.hardware.limelightvision.LLStatus;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoController;
-import com.seattlesolvers.solverslib.hardware.servos.ServoEx;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
@@ -24,7 +28,9 @@ public class Epsilongoated extends OpMode {
     private Timer pathtimer;
     private Timer OpmodeTimer;
     private ServosAndMotors servosandmotors = new ServosAndMotors();
+    public Limelight3A limelight;
     private boolean shotstriggered = false;
+
 
     public enum servos{
         intake,
@@ -197,7 +203,7 @@ public class Epsilongoated extends OpMode {
         pathtimer = new Timer();
         OpmodeTimer = new Timer();
         servosandmotors.init(hardwareMap);
-
+        limelight = hardwareMap.get(Limelight3A.class, "limelight");
         follower = Constants.createFollower(hardwareMap);
         //TODO add in any other init mechaniams
         buildPaths();
