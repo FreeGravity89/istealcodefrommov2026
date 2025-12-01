@@ -1,6 +1,7 @@
 package subsystems;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -35,10 +36,10 @@ public class ServosAndMotors {
     private ShootState shootState;
     public int Apriltag = 0;//replace once apriltag detection works
     // FlipperConstants
-    private double FlipLClose = 0;
-    private double FlipLOpen = 0;
-    private double FlipRClose = 0;
-    private double FlipROpen = 0;
+    private double FlipLClose =.715;
+    private double FlipLOpen =.5;
+    private double FlipRClose =.6;
+    private double FlipROpen =.26;
     private double FlipperTimePurpReset = 0.25;//how long before Flipper does a flippy
     private double FlipperTimePurp = 0.25;
     private double FlipperTimeGree = 0.25;
@@ -51,13 +52,14 @@ public class ServosAndMotors {
     private double shootPower = .45;
 
     public void init(HardwareMap hwMap){
-        outakeflipperR = hwMap.get(Servo.class,"outakeflipperR");
+        outakeflipperR = hwMap.get(Servo.class,"trapdoory");
         outakeflipperL = hwMap.get(Servo.class,"outakeflipperL");
         pin = hwMap.get(Servo.class,"pin");
-        ShooterL = hwMap.get(DcMotor.class,"ShooterL");
-        ShooterR = hwMap.get(DcMotor.class,"ShooterR");
+        ShooterL = hwMap.get(DcMotor.class,"outakeL");
+        ShooterR = hwMap.get(DcMotor.class,"outakeR");
         ShooterL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         ShooterR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ShooterR.setDirection(DcMotorSimple.Direction.REVERSE);
         ShooterL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         ShooterR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         ShooterR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -67,6 +69,7 @@ public class ServosAndMotors {
         shootState = ShootState.AprilTag;
         outakeflipperL.setPosition(FlipLClose);
         outakeflipperR.setPosition(FlipRClose);
+        pin.setDirection(Servo.Direction.REVERSE);
 
     }
     public void update(){
