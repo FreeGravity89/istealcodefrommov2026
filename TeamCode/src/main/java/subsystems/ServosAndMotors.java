@@ -1,12 +1,22 @@
 package subsystems;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+
+import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.LLResultTypes;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.autonomous.LimelightTestes;
+
+import java.util.List;
+
 public class ServosAndMotors {
+    public Limelight3A limelight;
     private Servo outakeflipperR;
     private Servo outakeflipperL;
     private Servo pin;
@@ -64,7 +74,13 @@ public class ServosAndMotors {
         ShooterR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         ShooterR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         ShooterL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        // Limelight ----------------------------------------------------------
+        limelight = hardwareMap.get(Limelight3A.class, "limelight");
+        limelight.setPollRateHz(100); // This sets how often we ask Limelight for data (100 times per second)
+        limelight.pipelineSwitch(0); // Switch to pipeline number 0
+        limelight.start(); // This tells Limelight to start looking!
         stateTimer0.reset();
+
         //Tune PIDF, Maybe...
         shootState = ShootState.AprilTag;
         outakeflipperL.setPosition(FlipLClose);
@@ -216,5 +232,17 @@ public class ServosAndMotors {
     }
     public boolean isBusy(){
         return shootState != ShootState.IdlePPG && shootState != ShootState.IdlePGP && shootState != ShootState.IdleGPP;
+    }
+    public void loop() {
+        LLResult llResult = limelight.getLatestResult();
+        if (llResult != null && llResult.isValid()){
+            //telemetry.addData("ID", llResult.get());
+            List<LLResultTypes.FiducialResult> fiducials = llResult.getFiducialResults();
+            for (LLResultTypes.FiducialResult fiducialResult : fiducials) {
+                int id = fiducialResult.getFiducialId();
+                Apriltag = id;
+            }
+        }
+
     }
 }
