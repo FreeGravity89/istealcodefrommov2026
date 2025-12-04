@@ -48,12 +48,12 @@ public class ServosAndMotors {
     // FlipperConstants
     private double FlipLClose =.715;
     private double FlipLOpen =.5;
-    private double FlipRClose =.6;
-    private double FlipROpen =.26;
+    private double FlipRClose =.26;
+    private double FlipROpen =.6;
     private double FlipperTimePurpReset = 0.25;//how long before Flipper does a flippy
     private double FlipperTimePurp = 0.25;
     private double FlipperTimeGree = 0.25;
-    private double shootTime1 = 2; //This is adjusting to how long before it shoots
+    private double shootTime1 = 1; //This is adjusting to how long before it shoots
     // ShootConstants
     public int shotsRemaining = 0;
     private double velo = 0;
@@ -63,7 +63,7 @@ public class ServosAndMotors {
 
     public void init(HardwareMap hwMap){
         outakeflipperR = hwMap.get(Servo.class,"trapdoory");
-        outakeflipperL = hwMap.get(Servo.class,"outakeflipperL");
+        outakeflipperL = hwMap.get(Servo.class,"outakeflipL");
         pin = hwMap.get(Servo.class,"pin");
         ShooterL = hwMap.get(DcMotor.class,"outakeL");
         ShooterR = hwMap.get(DcMotor.class,"outakeR");
@@ -75,7 +75,7 @@ public class ServosAndMotors {
         ShooterR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         ShooterL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         // Limelight ----------------------------------------------------------
-        limelight = hardwareMap.get(Limelight3A.class, "limelight");
+        limelight = hwMap.get(Limelight3A.class, "limelight");
         limelight.setPollRateHz(100); // This sets how often we ask Limelight for data (100 times per second)
         limelight.pipelineSwitch(0); // Switch to pipeline number 0
         limelight.start(); // This tells Limelight to start looking!
@@ -242,6 +242,9 @@ public class ServosAndMotors {
                 int id = fiducialResult.getFiducialId();
                 Apriltag = id;
             }
+        }
+        if (shootState != ShootState.AprilTag){
+            limelight.stop();
         }
 
     }

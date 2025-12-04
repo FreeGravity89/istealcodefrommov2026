@@ -3,26 +3,21 @@ package org.firstinspires.ftc.teamcode.autonomous;
 import static org.firstinspires.ftc.teamcode.pedroPathing.Tuning.follower;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
-import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.hardware.limelightvision.LLResult;
-import com.qualcomm.hardware.limelightvision.LLResultTypes;
-import com.qualcomm.hardware.limelightvision.LLStatus;
 import com.pedropathing.util.Timer;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.ServoController;
+
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import subsystems.ServosAndMotors;
-
+import subsystems.intakeMYBALLS;
 @Autonomous
 public class Epsilongoated extends OpMode {
     private Timer pathtimer;
     private Timer OpmodeTimer;
     private ServosAndMotors servosandmotors = new ServosAndMotors();
+    private intakeMYBALLS intakeMYBALLS=new intakeMYBALLS();
     public Limelight3A limelight;
     private boolean shotstriggered = false;
 
@@ -125,7 +120,7 @@ public class Epsilongoated extends OpMode {
                         shotstriggered = true;
                     } else if (shotstriggered && !servosandmotors.isBusy()) {
                         //done shooting
-                        follower.followPath(Stafreto1, true);
+                        //follower.followPath(Stafreto1, true);
                         setPathstate(Pathstate.Stafretopickspike1);
                         telemetry.addLine("lines up with the spike mark");
                     }
@@ -142,7 +137,7 @@ public class Epsilongoated extends OpMode {
 
             case  Stafretopickspike1:
 
-                if (!follower.isBusy()&& pathtimer.getElapsedTimeSeconds()>1){
+                if (!follower.isBusy()&& pathtimer.getElapsedTimeSeconds()>5){
                     follower.followPath(thruoghSpike1,false );
                     setPathstate(Pathstate.CArrytoscore);
                     telemetry.addLine("intakeing da balls");
@@ -176,7 +171,10 @@ public class Epsilongoated extends OpMode {
             case PARK:
                 if(!follower.isBusy()&&pathtimer.getElapsedTimeSeconds()>1){
                     follower.followPath(PARRKRRKR,false);
-                setPathstate(Pathstate.PARK);}
+                setPathstate(Pathstate.PARK);
+                }
+                break;
+
 
 
 

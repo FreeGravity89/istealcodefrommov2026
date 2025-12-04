@@ -7,6 +7,7 @@ import com.pedropathing.follower.Follower;
 import com.pedropathing.follower.FollowerConstants;
 import com.pedropathing.ftc.FollowerBuilder;
 import com.pedropathing.ftc.drivetrains.MecanumConstants;
+import com.pedropathing.ftc.localization.Encoder;
 import com.pedropathing.ftc.localization.constants.PinpointConstants;
 import com.pedropathing.paths.PathConstraints;
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
@@ -21,8 +22,8 @@ public class Constants {
 
     public static FollowerConstants followerConstants = new FollowerConstants()
             .mass(10.2)
-            .forwardZeroPowerAcceleration(-41.19157413313582)
-            .lateralZeroPowerAcceleration(-58.30373587561396)
+            .forwardZeroPowerAcceleration(-1831.935380528561)
+            .lateralZeroPowerAcceleration(25.604667359498208)
             .translationalPIDFCoefficients(new PIDFCoefficients(0.1, 0.0001, 0.005, 0))
             .headingPIDFCoefficients(new PIDFCoefficients(1, 0,0.0005, 0.025))
             .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.005,0.0,0.000010,0.6,0.0010));
@@ -31,9 +32,9 @@ public class Constants {
 
     public static MecanumConstants driveConstants = new MecanumConstants()
             // Check issue with either wheels or wiring of motors because drive code is not working atm
-            .maxPower(1)
-            .xVelocity(79.29888723778913)
-            .yVelocity(61.73204701341043)
+            .maxPower(.5)
+            .xVelocity(112.11824239896039)
+            .yVelocity(64.44015286663385)
 
 
 
@@ -42,10 +43,10 @@ public class Constants {
             .rightRearMotorName("br")
             .leftRearMotorName("bl")
             .leftFrontMotorName("fl")
-            .leftFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
-            .leftRearMotorDirection(DcMotorSimple.Direction.REVERSE)
-            .rightFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
-            .rightRearMotorDirection(DcMotorSimple.Direction.FORWARD);
+            .leftFrontMotorDirection(DcMotorSimple.Direction.FORWARD)
+            .leftRearMotorDirection(DcMotorSimple.Direction.FORWARD)
+            .rightFrontMotorDirection(DcMotorSimple.Direction.REVERSE)
+            .rightRearMotorDirection(DcMotorSimple.Direction.REVERSE);
 
     public static PathConstraints pathConstraints = new PathConstraints(
     0.99, 100,
