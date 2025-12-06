@@ -94,24 +94,30 @@ public class ServosAndMotors {
     public void update(){
         switch (shootState) {
             case AprilTag:
+                telemetry.addLine("AprilTag");
                 if(Apriltag == 21){//fix once apriltag worky
+                    telemetry.addLine("AprilTag21");
                     stateTimer0.reset();
                     shootState = ShootState.IdleGPP;
                 }
                 else if (Apriltag == 22) {
+                    telemetry.addLine("AprilTag22");
                     stateTimer0.reset();
                     shootState = ShootState.IdlePGP;
                 }
                 else if (Apriltag == 23) {
+                    telemetry.addLine("AprilTag23");
                     stateTimer0.reset();
                     shootState = ShootState.IdlePPG;
                 }
                 else if (stateTimer0.seconds() > 1){//this is if it does not detect
+                    telemetry.addLine("AprilTagDefaultOR23");
                     stateTimer0.reset();
                     shootState = ShootState.IdlePPG;
                 }
                 break;
             case IdlePPG:
+                telemetry.addLine("IdlePPG");
                 outakeflipperL.setPosition(FlipLClose);
                 trapdoory.setPosition(FlipRClose);
                 if(shotsRemaining >0) {
@@ -123,6 +129,7 @@ public class ServosAndMotors {
                 }
                 break;
             case Spin_UpPPG:
+                telemetry.addLine("Spin_UpPPG");
                 if(stateTimer0.seconds() > shootTime1){
                     outakeflipperL.setPosition(FlipLOpen);
                     telemetry.addLine("Spin_UpPPG");
