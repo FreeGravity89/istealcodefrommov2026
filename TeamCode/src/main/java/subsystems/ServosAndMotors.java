@@ -174,6 +174,7 @@ public class ServosAndMotors {
                     break;
                 }
             case PPG1:
+                telemetry.addLine("PPG1");
                 if (stateTimer0.seconds() > FlipperTimePurp){
                     outakeflipperL.setPosition(FlipLClose);
                     telemetry.addLine("PPG1");
@@ -182,6 +183,7 @@ public class ServosAndMotors {
                     break;
                 }
             case PPG2:
+                telemetry.addLine("PPG2");
                 if (stateTimer0.seconds() > FlipperTimePurpReset){
                     outakeflipperL.setPosition(FlipLOpen);
                     telemetry.addLine("PPG2");
@@ -190,6 +192,7 @@ public class ServosAndMotors {
                     break;
                 }
             case PPG3:
+                telemetry.addLine("PPG3");
                 if (stateTimer0.seconds() > FlipperTimePurpReset){
                     outakeflipperL.setPosition(FlipROpen);
                     telemetry.addLine("PPG3");
