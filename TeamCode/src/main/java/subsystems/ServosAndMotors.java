@@ -89,7 +89,7 @@ public class ServosAndMotors {
         outakeflipperL.setPosition(FlipLClose);
         trapdoory.setPosition(FlipRClose);
         pin.setDirection(Servo.Direction.REVERSE);
-
+//lll
     }
     public void update(){
         switch (shootState) {
@@ -131,8 +131,9 @@ public class ServosAndMotors {
                     outakeflipperL.setPosition(FlipLOpen);
                     stateTimer0.reset();
                     shootState = ShootState.PPG1;
-                    break;
+
                 }
+                break;
             case IdlePGP:
                 if(shotsRemaining > 0) {
                     outakeflipperL.setPosition(FlipLClose);
@@ -159,24 +160,27 @@ public class ServosAndMotors {
                     outakeflipperL.setPosition(FlipLOpen);
                     stateTimer0.reset();
                     shootState = ShootState.PGP1;
-                    break;
+
                 }
+                break;
             case Spin_upGPP:
                 if(stateTimer0.seconds() > shootTime1){
                     trapdoory.setPosition(FlipROpen);
                     stateTimer0.reset();
                     shootState = ShootState.GPP1;
 
-                    break;
+                    ;
                 }
+                break;
             case PPG1:
                 if (stateTimer0.seconds() > FlipperTimePurp){
                     outakeflipperL.setPosition(FlipLClose);
                    // telemetry.addLine("PPG1");
                     stateTimer0.reset();
                     shootState = ShootState.PPG2;
-                    break;
+
                 }
+                break;
             case PPG2:
                // telemetry.addLine("PPG2");
                 if (stateTimer0.seconds() > FlipperTimePurpReset){
@@ -184,8 +188,9 @@ public class ServosAndMotors {
                    // telemetry.addLine("PPG2");
                     stateTimer0.reset();
                     shootState = ShootState.PPG3;
-                    break;
+
                 }
+                break;
             case PPG3:
                // telemetry.addLine("PPG3");
                 if (stateTimer0.seconds() > FlipperTimePurpReset){
@@ -193,8 +198,9 @@ public class ServosAndMotors {
                    // telemetry.addLine("PPG3");
                     stateTimer0.reset();
                     shootState = ShootState.IdlePPG;
-                    break;
+
                 }
+                break;
 
             case PGP1:
                 if (stateTimer0.seconds() > FlipperTimeGree){
@@ -202,8 +208,9 @@ public class ServosAndMotors {
                     trapdoory.setPosition(FlipROpen);
                     stateTimer0.reset();
                     shootState = ShootState.PGP2;
-                    break;
+
                 }
+                break;
             case PGP2:
                 if (stateTimer0.seconds() > FlipperTimePurp){
                     trapdoory.setPosition(FlipRClose);
@@ -211,31 +218,35 @@ public class ServosAndMotors {
                     stateTimer0.reset();
                     shotsRemaining = 0;
                     shootState = ShootState.IdlePGP;
-                    break;
+                    ;
                 }
+                break;
             case GPP1:
                 if (stateTimer0.seconds() > FlipperTimePurp){
                     outakeflipperL.setPosition(FlipLOpen);
                     trapdoory.setPosition(.7);
                     stateTimer0.reset();
                     shootState = ShootState.GPP2;
-                    break;
+                    ;
                 }
+                break;
             case GPP2:
                 if (stateTimer0.seconds() > FlipperTimePurp){
                     outakeflipperL.setPosition(FlipLClose);
                     stateTimer0.reset();
                     shootState = ShootState.GPP3;
-                    break;
+                    ;
                 }
+                break;
             case GPP3:
                 if (stateTimer0.seconds() > FlipperTimePurpReset){
                     outakeflipperL.setPosition(FlipLOpen);
                     stateTimer0.reset();
                     shotsRemaining =0;
                     shootState = ShootState.IdleGPP;
-                    break;
+                    ;
                 }
+                break;
 
 
         }
