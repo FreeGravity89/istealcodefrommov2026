@@ -117,9 +117,9 @@ public class ServosAndMotors {
                 }
                 break;
             case IdlePPG:
-                outakeflipperL.setPosition(FlipLClose);
-                trapdoory.setPosition(FlipRClose);
                 if(shotsRemaining >0) {
+                    outakeflipperL.setPosition(FlipLClose);
+                    trapdoory.setPosition(FlipRClose);
                     ShooterL.setPower(shootPower);
                     ShooterR.setPower(shootPower);
                     stateTimer0.reset();
@@ -134,9 +134,9 @@ public class ServosAndMotors {
                     break;
                 }
             case IdlePGP:
-                outakeflipperL.setPosition(FlipLClose);
-                trapdoory.setPosition(FlipRClose);
                 if(shotsRemaining > 0) {
+                    outakeflipperL.setPosition(FlipLClose);
+                    trapdoory.setPosition(FlipRClose);
                     ShooterL.setPower(shootPower);
                     ShooterR.setPower(shootPower);
                     stateTimer0.reset();
@@ -144,9 +144,9 @@ public class ServosAndMotors {
                 }
                 break;
             case IdleGPP:
-                outakeflipperL.setPosition(FlipLClose);
-                trapdoory.setPosition(FlipRClose);
                 if(shotsRemaining > 0) {
+                    outakeflipperL.setPosition(FlipLClose);
+                    trapdoory.setPosition(FlipRClose);
                     ShooterL.setPower(shootPower);
                     ShooterR.setPower(shootPower);
                     stateTimer0.reset();
