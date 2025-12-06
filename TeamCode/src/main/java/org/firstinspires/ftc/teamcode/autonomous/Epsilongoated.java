@@ -135,18 +135,15 @@ public class Epsilongoated extends OpMode {
                 break;
             case SHOOT_PRELOAD:
                 if(!follower.isBusy()) {
-                    if(!follower.isBusy()){
                         // requested shots yet?
                         if ((!shotstriggered)){
-                            servosandmotors.fireshots(3);
+                            servosandmotors.fireshots(1);
                             shotstriggered=true;
                         }
                         else if(shotstriggered&& !servosandmotors.isBusy()){
                             //shotsdone
                             setPathstate(Pathstate.Stafretopickspike1);
                             telemetry.addLine("lines up with the spike mark");
-
-                        }
                     }
 
                         //follower.followPath(Stafreto1, true);
@@ -261,7 +258,6 @@ public class Epsilongoated extends OpMode {
         telemetry.addData("heading",follower.getPose().getHeading());
         telemetry.addData("Path time", pathtimer.getElapsedTimeSeconds());
         telemetry.addData("statetimer", stateTimer0);
-
         telemetry.addData("ID",servosandmotors);
     }
 }
