@@ -55,15 +55,15 @@ public class ServosAndMotors {
     private double FlipROpen =.6;
     private double FlipperTimePurpReset = 0.15;//how long before Flipper does a flippy
     private double FlipperTimeGreeReset =0.15;
-    private double FlipperTimePurp = 0.25;
+    private double FlipperTimePurp = .5;
     private double FlipperTimeGree = 0.25;
     private double shootTime1 = .5; //This is adjusing to how long before it shoots
     // ShootConstants
-    public int shotsRemaining = 1;
+    public int shotsRemaining = 0;
     private double velo = 0;
     //private double RPMmin = 800; //Probably won't use rpm in auto since voltage should be consistent
     //private double RPMtarget = 1200;
-    private double shootPower = 0;
+    private double shootPower = .45;
 
     public void init(HardwareMap hwMap){
         trapdoory = hwMap.get(Servo.class,"trapdoory");
@@ -85,7 +85,7 @@ public class ServosAndMotors {
         limelight.start(); // This tells Limelight to start looking!
         stateTimer0.reset();
         //Tune PIDF, Maybe...
-        shootState = ShootState.IdleGPP;
+        shootState = ShootState.AprilTag;
         outakeflipperL.setPosition(FlipLClose);
         trapdoory.setPosition(FlipRClose);
         pin.setDirection(Servo.Direction.REVERSE);
@@ -117,9 +117,9 @@ public class ServosAndMotors {
                 }
                 break;
             case IdlePPG:
-                outakeflipperL.setPosition(FlipLClose);
-                trapdoory.setPosition(FlipRClose);
                 if(shotsRemaining >0) {
+                    outakeflipperL.setPosition(FlipLClose);
+                    trapdoory.setPosition(FlipRClose);
                     ShooterL.setPower(shootPower);
                     ShooterR.setPower(shootPower);
                     stateTimer0.reset();
@@ -144,9 +144,10 @@ public class ServosAndMotors {
                 }
                 break;
             case IdleGPP:
-                outakeflipperL.setPosition(FlipLClose);
-                trapdoory.setPosition(FlipRClose);
+
                 if(shotsRemaining > 0) {
+                    outakeflipperL.setPosition(FlipLClose);
+                    trapdoory.setPosition(FlipRClose);
                     ShooterL.setPower(shootPower);
                     ShooterR.setPower(shootPower);
                     stateTimer0.reset();
