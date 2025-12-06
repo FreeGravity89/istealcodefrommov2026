@@ -131,7 +131,6 @@ public class ServosAndMotors {
                     outakeflipperL.setPosition(FlipLOpen);
                     stateTimer0.reset();
                     shootState = ShootState.PPG1;
-
                 }
                 break;
             case IdlePGP:
@@ -160,7 +159,6 @@ public class ServosAndMotors {
                     outakeflipperL.setPosition(FlipLOpen);
                     stateTimer0.reset();
                     shootState = ShootState.PGP1;
-
                 }
                 break;
             case Spin_upGPP:
@@ -168,8 +166,6 @@ public class ServosAndMotors {
                     trapdoory.setPosition(FlipROpen);
                     stateTimer0.reset();
                     shootState = ShootState.GPP1;
-
-                    ;
                 }
                 break;
             case PPG1:
@@ -178,7 +174,6 @@ public class ServosAndMotors {
                    // telemetry.addLine("PPG1");
                     stateTimer0.reset();
                     shootState = ShootState.PPG2;
-
                 }
                 break;
             case PPG2:
@@ -188,7 +183,6 @@ public class ServosAndMotors {
                    // telemetry.addLine("PPG2");
                     stateTimer0.reset();
                     shootState = ShootState.PPG3;
-
                 }
                 break;
             case PPG3:
@@ -198,17 +192,14 @@ public class ServosAndMotors {
                    // telemetry.addLine("PPG3");
                     stateTimer0.reset();
                     shootState = ShootState.IdlePPG;
-
                 }
                 break;
-
             case PGP1:
                 if (stateTimer0.seconds() > FlipperTimeGree){
                     outakeflipperL.setPosition(FlipLClose);
                     trapdoory.setPosition(FlipROpen);
                     stateTimer0.reset();
                     shootState = ShootState.PGP2;
-
                 }
                 break;
             case PGP2:
@@ -218,7 +209,6 @@ public class ServosAndMotors {
                     stateTimer0.reset();
                     shotsRemaining = 0;
                     shootState = ShootState.IdlePGP;
-                    ;
                 }
                 break;
             case GPP1:
@@ -227,7 +217,6 @@ public class ServosAndMotors {
                     trapdoory.setPosition(.7);
                     stateTimer0.reset();
                     shootState = ShootState.GPP2;
-                    ;
                 }
                 break;
             case GPP2:
@@ -235,7 +224,6 @@ public class ServosAndMotors {
                     outakeflipperL.setPosition(FlipLClose);
                     stateTimer0.reset();
                     shootState = ShootState.GPP3;
-                    ;
                 }
                 break;
             case GPP3:
@@ -244,7 +232,6 @@ public class ServosAndMotors {
                     stateTimer0.reset();
                     shotsRemaining =0;
                     shootState = ShootState.IdleGPP;
-                    ;
                 }
                 break;
 
@@ -257,7 +244,7 @@ public class ServosAndMotors {
         }
     }
     public boolean isBusy(){
-        return shootState != ShootState.IdlePPG && shootState != ShootState.IdlePGP && shootState != ShootState.IdleGPP;
+        return shootState != ShootState.IdlePPG || shootState != ShootState.IdlePGP || shootState != ShootState.IdleGPP;
     }
     public void loop() {
         LLResult llResult = limelight.getLatestResult();

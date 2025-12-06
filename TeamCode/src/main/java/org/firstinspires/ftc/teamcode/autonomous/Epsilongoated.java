@@ -142,7 +142,7 @@ public class Epsilongoated extends OpMode {
                             shotstriggered=true;
                             telemetry.addLine("shooting da balls");
                         }
-                        else if(shotstriggered&& !servosandmotors.isBusy()){
+                        else if(shotstriggered && !servosandmotors.isBusy()){
                             //shotsdone
                             setPathstate(Pathstate.Stafretopickspike1);
                             telemetry.addLine("lines up with the spike mark");
