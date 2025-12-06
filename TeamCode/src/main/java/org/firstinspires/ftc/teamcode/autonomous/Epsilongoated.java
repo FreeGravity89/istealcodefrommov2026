@@ -136,9 +136,11 @@ public class Epsilongoated extends OpMode {
             case SHOOT_PRELOAD:
                 if(!follower.isBusy()) {
                         // requested shots yet?
+                    telemetry.addLine("done with path");
                         if ((!shotstriggered)){
                             servosandmotors.fireshots(1);
                             shotstriggered=true;
+                            telemetry.addLine("shooting da balls");
                         }
                         else if(shotstriggered&& !servosandmotors.isBusy()){
                             //shotsdone
