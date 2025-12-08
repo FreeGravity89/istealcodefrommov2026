@@ -30,8 +30,8 @@ apply plugin: 'dev.frozenmilk.sinister.sloth.load'
 
 android {
     namespace = 'org.firstinspires.ftc.teamcode'
+    compileSdk 34
 
-    compileSdk 35
     defaultConfig {
         minSdk 24
     }
