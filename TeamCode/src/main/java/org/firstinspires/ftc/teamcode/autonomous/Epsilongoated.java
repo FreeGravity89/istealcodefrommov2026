@@ -21,16 +21,19 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import subsystems.ServosAndMotors;
-import subsystems.intakeMYBALLS;
+import subsystems.intake;
+
 @Autonomous
 public class Epsilongoated extends OpMode {
     private Timer pathtimer;
     private Timer OpmodeTimer;
     private ServosAndMotors servosandmotors = new ServosAndMotors();
-    private intakeMYBALLS intakeMYBALLS=new intakeMYBALLS();
+    private intake intake =new intake();
+
 
     public Limelight3A limelight;
     private boolean shotstriggered = false;
+    private boolean ballsTaken =false;
     private ElapsedTime stateTimer0 = new ElapsedTime();
 
 
@@ -125,6 +128,7 @@ public class Epsilongoated extends OpMode {
             case DRIVE_STARTPOS_SHOOT_POS:
                 follower.followPath(drivestartpostoshootpos,true);
 
+
                 //if(!follower.isBusy()) {
                     //if (!shotstriggered) {
                         //servosandmotors.fireshots(1);
@@ -137,16 +141,27 @@ public class Epsilongoated extends OpMode {
                 if(!follower.isBusy()) {
                         // requested shots yet?
                     telemetry.addLine("done with path");
-                        if ((!shotstriggered)){
-                            servosandmotors.fireshots(1);
-                            shotstriggered=true;
-                            telemetry.addLine("shooting da balls");
-                        }
-                        else if(shotstriggered&& !servosandmotors.isBusy()){
+                    if ((!ballsTaken)){
+                        intake.takeIN(3);
+                        ballsTaken=true;
+
+                    }
+                    else if (ballsTaken&& intake.isBusy()){
+                        setPathstate(Pathstate.Stafretopickspike1);
+                    }
+
+                    //}//THIS ONE WORKS DONT MESS WITH IT
+                        //if ((!shotstriggered)){
+                          //  servosandmotors.fireshots(1);
+                            //shotstriggered=true;
+                            //telemetry.addLine("shooting da balls");
+
+                        //}
+                        //else if(shotstriggered&& !servosandmotors.isBusy()){
                             //shotsdone
                             setPathstate(Pathstate.Stafretopickspike1);
                             telemetry.addLine("lines up with the spike mark");
-                    }
+                    //v     }
 
                         //follower.followPath(Stafreto1, true);
 
@@ -175,9 +190,9 @@ public class Epsilongoated extends OpMode {
                 break;
             case CArrytoscore:
                 if(!follower.isBusy()&&pathtimer.getElapsedTimeSeconds()>2){
-                    servosandmotors.fireshots(1);
-                    shotstriggered= false;
-                    follower.followPath(fromPickuptoscore,true);
+                    //servosandmotors.fireshots(1);
+                    //shotstriggered= false;
+                    //follower.followPath(fromPickuptoscore,true);
                     setPathstate(Pathstate.spike2);
 
                     telemetry.addLine("shoots the 1st spike marks atleast should!");
@@ -240,6 +255,7 @@ public class Epsilongoated extends OpMode {
         follower = Constants.createFollower(hardwareMap);
         //TODO add in any other init mechaniams
         servosandmotors.init(hardwareMap);
+        intake.init(hardwareMap);
         buildPaths();
         follower.setPose(startPose);
 
@@ -253,6 +269,8 @@ public class Epsilongoated extends OpMode {
     public void loop(){
         follower.update();
         servosandmotors.update();
+        intake.update();
+
         statePathupdate();
         telemetry.addData("path state", pathstate.toString());
         telemetry.addData("x", follower.getPose().getPose());

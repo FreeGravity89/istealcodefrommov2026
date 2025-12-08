@@ -63,14 +63,14 @@ public class ServosAndMotors {
     private double velo = 0;
     //private double RPMmin = 800; //Probably won't use rpm in auto since voltage should be consistent
     //private double RPMtarget = 1200;
-    private double shootPower = 0;
+    private double shootPower = .45;
 
-    public void init(HardwareMap hwMap){
-        trapdoory = hwMap.get(Servo.class,"trapdoory");
-        outakeflipperL = hwMap.get(Servo.class,"outakeflipL");
-        pin = hwMap.get(Servo.class,"pin");
-        ShooterL = hwMap.get(DcMotor.class,"outakeL");
-        ShooterR = hwMap.get(DcMotor.class,"outakeR");
+    public void init(HardwareMap hwMap) {
+        trapdoory = hwMap.get(Servo.class, "trapdoory");
+        outakeflipperL = hwMap.get(Servo.class, "outakeflipL");
+        pin = hwMap.get(Servo.class, "pin");
+        ShooterL = hwMap.get(DcMotor.class, "outakeL");
+        ShooterR = hwMap.get(DcMotor.class, "outakeR");
         ShooterL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         ShooterR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         ShooterR.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -90,7 +90,7 @@ public class ServosAndMotors {
         trapdoory.setPosition(FlipRClose);
         pin.setDirection(Servo.Direction.REVERSE);
 //lll
-    //}/lll
+    }//llll
     public void update(){
         switch (shootState) {
             case AprilTag:
