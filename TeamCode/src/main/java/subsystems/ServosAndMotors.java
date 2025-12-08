@@ -90,7 +90,7 @@ public class ServosAndMotors {
         trapdoory.setPosition(FlipRClose);
         pin.setDirection(Servo.Direction.REVERSE);
 //lll
-    }
+    //}/lll
     public void update(){
         switch (shootState) {
             case AprilTag:
