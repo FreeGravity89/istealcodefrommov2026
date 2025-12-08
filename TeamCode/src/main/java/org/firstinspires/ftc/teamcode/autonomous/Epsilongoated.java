@@ -1,29 +1,33 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
 import static org.firstinspires.ftc.teamcode.pedroPathing.Tuning.follower;
 
+import com.arcrobotics.ftclib.command.WaitCommand;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
+import com.qualcomm.hardware.ams.AMSColorSensor;
+import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.apache.commons.math3.stat.inference.OneWayAnova;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
-//import subsystems.ServosAndMotors;
 import subsystems.ServosAndMotors;
-
+import subsystems.intakeMYBALLS;
 @Autonomous
 public class Epsilongoated extends OpMode {
     private Timer pathtimer;
     private Timer OpmodeTimer;
-    private DcMotor intake;
     private ServosAndMotors servosandmotors = new ServosAndMotors();
-    //private intakeMYBALLS intakeMYBALLS=new intakeMYBALLS();
+    private intakeMYBALLS intakeMYBALLS=new intakeMYBALLS();
 
     public Limelight3A limelight;
     private boolean shotstriggered = false;
@@ -134,15 +138,15 @@ public class Epsilongoated extends OpMode {
                         // requested shots yet?
                     telemetry.addLine("done with path");
                         if ((!shotstriggered)){
-                            servosandmotors.fireshots(1);//might be 2 ???????
+                            servosandmotors.fireshots(1);
                             shotstriggered=true;
                             telemetry.addLine("shooting da balls");
                         }
-                        //else if(shotstriggered !subsystems.intakeMYBALLS.isBusy()){
+                        else if(shotstriggered&& !servosandmotors.isBusy()){
                             //shotsdone
                             setPathstate(Pathstate.Stafretopickspike1);
                             telemetry.addLine("lines up with the spike mark");
-                    //}
+                    }
 
                         //follower.followPath(Stafreto1, true);
 
@@ -173,7 +177,6 @@ public class Epsilongoated extends OpMode {
                 if(!follower.isBusy()&&pathtimer.getElapsedTimeSeconds()>2){
                     servosandmotors.fireshots(1);
                     shotstriggered= false;
-
                     follower.followPath(fromPickuptoscore,true);
                     setPathstate(Pathstate.spike2);
 
@@ -237,7 +240,6 @@ public class Epsilongoated extends OpMode {
         follower = Constants.createFollower(hardwareMap);
         //TODO add in any other init mechaniams
         servosandmotors.init(hardwareMap);
-
         buildPaths();
         follower.setPose(startPose);
 
@@ -251,7 +253,6 @@ public class Epsilongoated extends OpMode {
     public void loop(){
         follower.update();
         servosandmotors.update();
-
         statePathupdate();
         telemetry.addData("path state", pathstate.toString());
         telemetry.addData("x", follower.getPose().getPose());
@@ -259,6 +260,6 @@ public class Epsilongoated extends OpMode {
         telemetry.addData("heading",follower.getPose().getHeading());
         telemetry.addData("Path time", pathtimer.getElapsedTimeSeconds());
         telemetry.addData("statetimer", stateTimer0);
-
+        telemetry.addData("ID",servosandmotors);
     }
 }
